@@ -1,0 +1,4 @@
+name: SkillVehPlugin
+version: '1.0-SNAPSHOT'
+main: traiwy.skillVehPlugin.SkillVehPlugin
+api-version: '1.20'
