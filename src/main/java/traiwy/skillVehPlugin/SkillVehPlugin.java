@@ -1,5 +1,6 @@
 package traiwy.skillVehPlugin;
 
+import command.ResetVehCommand;
 import event.BookOpenListener;
 import inv.main.MainMenuBuilder;
 import inv.main.MainMenuListener;
@@ -11,8 +12,10 @@ public final class SkillVehPlugin extends JavaPlugin {
     public void onEnable() {
         MilestoneItems milestoneItems = new MilestoneItems(this);
         MainMenuBuilder mainMenuBuilder = new MainMenuBuilder(this, milestoneItems);
+        MainMenuListener mainMenuListener = new MainMenuListener(this, milestoneItems);
         getServer().getPluginManager().registerEvents(new BookOpenListener(mainMenuBuilder), this);
-        getServer().getPluginManager().registerEvents(new MainMenuListener(), this);
+        getServer().getPluginManager().registerEvents(new MainMenuListener(this, milestoneItems), this);
+        getCommand("resetVeh").setExecutor(new ResetVehCommand(this, mainMenuListener.getAwaitingVeh()));
 
     }
 

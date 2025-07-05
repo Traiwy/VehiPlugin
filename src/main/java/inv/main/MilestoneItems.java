@@ -9,7 +9,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
+import javax.print.attribute.standard.PresentationDirection;
 import java.util.Arrays;
+import java.util.function.Predicate;
 
 public class MilestoneItems {
     private final JavaPlugin plugin;
@@ -300,113 +302,122 @@ public class MilestoneItems {
         return item;
     }
 
-    public ItemStack createStrongmanItem() {
-        ItemStack item = new ItemStack(Material.IRON_AXE);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§6Силач");
-        meta.setLore(Arrays.asList("§7Урон топором: +3%/5%/7%"));
-        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_strongman");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public ItemStack createSpeedOfThoughtItem() {
-        ItemStack item = new ItemStack(Material.BOW);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§6Скорость мысли");
-        meta.setLore(Arrays.asList("§7Скорость натягивания лука/арбалета/трезубца: +5%/10%/15%"));
-        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_speed_of_thought");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public ItemStack createSteelMusclesItem() {
-        ItemStack item = new ItemStack(Material.DIAMOND_CHESTPLATE);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§6Стальные мышцы");
-        meta.setLore(Arrays.asList("§7Броня: +4/6/8 единиц"));
-        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_steel_muscles");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public ItemStack createGlassWeaponItem() {
-        ItemStack item = new ItemStack(Material.GLASS);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§6Стеклянное оружие");
-        meta.setLore(Arrays.asList("§7Исходящий урон +10%/15%/20%, входящий +15%/20%/25%"));
-        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_glass_weapon");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public ItemStack createPrecisionItem() {
-        ItemStack item = new ItemStack(Material.CROSSBOW);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§6Точность");
-        meta.setLore(Arrays.asList("§7Каждая 5/4/3 атака — крит"));
-        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_precision");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public ItemStack createHeavyArmorItem() {
-        ItemStack item = new ItemStack(Material.NETHERITE_CHESTPLATE);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§6Тяжелая броня");
-        meta.setLore(Arrays.asList("§7Броня +5/6/7 (алмаз), +6/7/8 (незерит) при полном комплекте"));
-        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_heavy_armor");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public ItemStack createDodgeItem() {
-        ItemStack item = new ItemStack(Material.FEATHER);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§6Уклонение");
-        meta.setLore(Arrays.asList("§7Шанс не получить урон от меча/топора: 5%/7%/10%"));
-        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_dodge");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public ItemStack createEliminationItem() {
-        ItemStack item = new ItemStack(Material.FLINT);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§6Устранение");
-        meta.setLore(Arrays.asList("§7Урон +1%/1.5%/2% за последовательные удары (до 10%/15%/20%)"));
-        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_elimination");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public ItemStack createChampionItem() {
-        ItemStack item = new ItemStack(Material.NETHER_STAR);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§6Чемпион");
-        meta.setLore(Arrays.asList("§7Броня +1/2/3, здоровье +2/4/6"));
-        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_champion");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public ItemStack createPureLuckItem() {
-        ItemStack item = new ItemStack(Material.EMERALD);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§6Чистая удача");
-        meta.setLore(Arrays.asList("§7Шанс крита без прыжка: 3%/6%/9%"));
-        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_pure_luck");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public ItemStack createCheatingItem() {
-        ItemStack item = new ItemStack(Material.BONE);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§6Шулерство");
-        meta.setLore(Arrays.asList("§7Шанс не потратить расходуемый предмет: 3%/6%/9%"));
-        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_cheating");
-        item.setItemMeta(meta);
-        return item;
+//    public ItemStack createStrongmanItem() {
+//        ItemStack item = new ItemStack(Material.IRON_AXE);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.setDisplayName("§6Силач");
+//        meta.setLore(Arrays.asList("§7Урон топором: +3%/5%/7%"));
+//        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_strongman");
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//
+//    public ItemStack createSpeedOfThoughtItem() {
+//        ItemStack item = new ItemStack(Material.BOW);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.setDisplayName("§6Скорость мысли");
+//        meta.setLore(Arrays.asList("§7Скорость натягивания лука/арбалета/трезубца: +5%/10%/15%"));
+//        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_speed_of_thought");
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//
+//    public ItemStack createSteelMusclesItem() {
+//        ItemStack item = new ItemStack(Material.DIAMOND_CHESTPLATE);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.setDisplayName("§6Стальные мышцы");
+//        meta.setLore(Arrays.asList("§7Броня: +4/6/8 единиц"));
+//        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_steel_muscles");
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//
+//    public ItemStack createGlassWeaponItem() {
+//        ItemStack item = new ItemStack(Material.GLASS);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.setDisplayName("§6Стеклянное оружие");
+//        meta.setLore(Arrays.asList("§7Исходящий урон +10%/15%/20%, входящий +15%/20%/25%"));
+//        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_glass_weapon");
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//
+//    public ItemStack createPrecisionItem() {
+//        ItemStack item = new ItemStack(Material.CROSSBOW);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.setDisplayName("§6Точность");
+//        meta.setLore(Arrays.asList("§7Каждая 5/4/3 атака — крит"));
+//        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_precision");
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//
+//    public ItemStack createHeavyArmorItem() {
+//        ItemStack item = new ItemStack(Material.NETHERITE_CHESTPLATE);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.setDisplayName("§6Тяжелая броня");
+//        meta.setLore(Arrays.asList("§7Броня +5/6/7 (алмаз), +6/7/8 (незерит) при полном комплекте"));
+//        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_heavy_armor");
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//
+//    public ItemStack createDodgeItem() {
+//        ItemStack item = new ItemStack(Material.FEATHER);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.setDisplayName("§6Уклонение");
+//        meta.setLore(Arrays.asList("§7Шанс не получить урон от меча/топора: 5%/7%/10%"));
+//        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_dodge");
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//
+//    public ItemStack createEliminationItem() {
+//        ItemStack item = new ItemStack(Material.FLINT);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.setDisplayName("§6Устранение");
+//        meta.setLore(Arrays.asList("§7Урон +1%/1.5%/2% за последовательные удары (до 10%/15%/20%)"));
+//        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_elimination");
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//
+//    public ItemStack createChampionItem() {
+//        ItemStack item = new ItemStack(Material.NETHER_STAR);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.setDisplayName("§6Чемпион");
+//        meta.setLore(Arrays.asList("§7Броня +1/2/3, здоровье +2/4/6"));
+//        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_champion");
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//
+//    public ItemStack createPureLuckItem() {
+//        ItemStack item = new ItemStack(Material.EMERALD);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.setDisplayName("§6Чистая удача");
+//        meta.setLore(Arrays.asList("§7Шанс крита без прыжка: 3%/6%/9%"));
+//        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_pure_luck");
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//
+//    public ItemStack createCheatingItem() {
+//        ItemStack item = new ItemStack(Material.BONE);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.setDisplayName("§6Шулерство");
+//        meta.setLore(Arrays.asList("§7Шанс не потратить расходуемый предмет: 3%/6%/9%"));
+//        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING, "milestone_cheating");
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+    public ItemStack createrEmeraldItem(){
+        ItemStack emerald = new ItemStack(Material.EMERALD_BLOCK);
+        ItemMeta meta = emerald.getItemMeta();
+        meta.setDisplayName("Подтвердите свой выбор");
+        meta.setLore(Arrays.asList(""));
+        meta.getPersistentDataContainer().set(customIdKey, PersistentDataType.STRING,"confirm_selection");
+        emerald.setItemMeta(meta);
+        return emerald;
     }
 }
