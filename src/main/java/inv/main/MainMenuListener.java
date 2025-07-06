@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -26,12 +27,14 @@ public class MainMenuListener implements Listener {
     private final MilestoneItems milestoneItems;
     private final NamespacedKey customIdKey;
     private final NamespacedKey milestoneIdKey;
+    private final NamespacedKey tempMilestoneKey;
 
     public MainMenuListener(JavaPlugin plugin, MilestoneItems milestoneItems) {
         this.plugin = plugin;
         this.milestoneItems = milestoneItems;
         this.customIdKey = new NamespacedKey(plugin, "custom_id");
         this.milestoneIdKey = new NamespacedKey(plugin, "milestone_1");
+        this.tempMilestoneKey = new NamespacedKey(plugin, "temp_milestone");
     }
 
 
@@ -60,21 +63,40 @@ public class MainMenuListener implements Listener {
         }
 
     }
+    @EventHandler
+    public void onCloseInventory(InventoryCloseEvent e){
+        if(!(e.getPlayer() instanceof Player)) return;
+        Player player = (Player)e.getPlayer();
+
+        InventoryHolder holder = e.getInventory().getHolder();
+        if(!(holder instanceof  MainHolder)) return;
+
+        PersistentDataContainer playerData = player.getPersistentDataContainer();
+        if(playerData.has(tempMilestoneKey, PersistentDataType.STRING)){
+            playerData.remove(tempMilestoneKey);
+            playerData.remove(tempMilestoneKey);
+            awaitingVeh.remove(player.getUniqueId());
+        }
+    }
 
     private void clickItem(Player player, ItemStack item, String customId, Inventory inventory, InventoryClickEvent e) {
         if (item == null || !item.hasItemMeta()) return;
-
-        UUID target = player.getUniqueId();
-        if(awaitingVeh.contains(target)){
-            player.sendMessage("игрок был добален");
+         PersistentDataContainer playerData = player.getPersistentDataContainer();
+        if(playerData.has(milestoneIdKey, PersistentDataType.STRING) || playerData.has(new NamespacedKey(plugin, "temp_milestone"), PersistentDataType.STRING)){
+            player.sendMessage("Вы уже выбрали веху");
+            player.playSound(player.getLocation(), org.bukkit.Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
+            return;
         }
+        UUID target = player.getUniqueId();
         ItemMeta meta = item.getItemMeta();
         meta.addEnchant(Enchantment.DURABILITY, 1, true);
         item.setItemMeta(meta);
         inventory.setItem(e.getSlot(), item);
         player.getPersistentDataContainer().set(new NamespacedKey(plugin, "temp_milestone"), PersistentDataType.STRING, customId);
+
         awaitingVeh.add(target);
         player.sendMessage("§aВы выбрали веху: " + meta.getDisplayName() + ". Нажмите на изумрудный блок для подтверждения.");
+
         player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
 
     }
@@ -96,13 +118,13 @@ public class MainMenuListener implements Listener {
         playerData.remove(new NamespacedKey(plugin, "temp_milestone"));
         awaitingVeh.remove(target);
 
+
         MasterMenuBuilder.openMasterMenu(player);
         player.sendMessage("§aВыбор вехи подтверждён!");
     }
     public Set<UUID> getAwaitingVeh(){
         return awaitingVeh;
     }
-
 }
 
 

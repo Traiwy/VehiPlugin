@@ -13,7 +13,7 @@ public final class SkillVehPlugin extends JavaPlugin {
         MilestoneItems milestoneItems = new MilestoneItems(this);
         MainMenuBuilder mainMenuBuilder = new MainMenuBuilder(this, milestoneItems);
         MainMenuListener mainMenuListener = new MainMenuListener(this, milestoneItems);
-        getServer().getPluginManager().registerEvents(new BookOpenListener(mainMenuBuilder), this);
+        getServer().getPluginManager().registerEvents(new BookOpenListener(this, mainMenuBuilder, milestoneItems), this);
         getServer().getPluginManager().registerEvents(new MainMenuListener(this, milestoneItems), this);
         getCommand("resetVeh").setExecutor(new ResetVehCommand(this, mainMenuListener.getAwaitingVeh()));
 
