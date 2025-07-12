@@ -4,6 +4,7 @@ public class MilestoneData {
     private final String customId;
     private final int level;
 
+
     public MilestoneData(String customId, int level) {
         this.customId = customId;
         this.level = level;

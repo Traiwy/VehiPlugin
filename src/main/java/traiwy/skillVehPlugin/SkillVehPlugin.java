@@ -7,6 +7,7 @@ import inv.main.MainMenuBuilder;
 import inv.main.MainMenuListener;
 import inv.main.MilestoneItems;
 import inv.master.MasterMenuBuilder;
+import milestone.EntityDamageListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import util.MilestonesConfigManager;
 import util.PlayerDataManager;
@@ -27,6 +28,7 @@ public final class SkillVehPlugin extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new BookOpenListener(this, masterMenuBuilder, mainMenuBuilder, milestoneItems, playerDataManager), this);
         getServer().getPluginManager().registerEvents(mainMenuListener, this);
+        getServer().getPluginManager().registerEvents( new EntityDamageListener(this, milestonesConfigManager, playerDataManager), this);
         getCommand("resetVeh").setExecutor(new ResetVehCommand(this, mainMenuListener.getAwaitingVeh(), playerDataManager));
         getCommand("vehlevel").setExecutor(new GiveLevelCommand(playerDataManager, masterMenuBuilder, mainMenuListener, this));
 

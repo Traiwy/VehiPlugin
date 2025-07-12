@@ -11,7 +11,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import util.MilestoneData;
 import util.MilestonesConfigManager;
+import util.PlayerDataManager;
 
 public class EntityDamageListener implements Listener {
     private final JavaPlugin plugin;
@@ -19,13 +21,15 @@ public class EntityDamageListener implements Listener {
     private final NamespacedKey milestoneIdKey;
     private final NamespacedKey milestoneLevelKey;
     private final NamespacedKey customIdKey;
+    private final PlayerDataManager playerDataManager;
 
-    public EntityDamageListener(JavaPlugin plugin, MilestonesConfigManager milestonesConfigManager) {
+    public EntityDamageListener(JavaPlugin plugin, MilestonesConfigManager milestonesConfigManager, PlayerDataManager playerDataManager) {
         this.plugin = plugin;
         this.milestonesConfigManager = milestonesConfigManager;
         this.milestoneIdKey = new NamespacedKey(plugin, "milestone_1");
         this.milestoneLevelKey = new NamespacedKey(plugin, "milestone_1_level");
         this.customIdKey = new NamespacedKey(plugin, "custom_id");
+        this.playerDataManager = playerDataManager;
     }
 
     @EventHandler
@@ -33,23 +37,22 @@ public class EntityDamageListener implements Listener {
         if (!(e.getEntity() instanceof Player)) return;
         Player player = (Player) e.getEntity();
 
-        PersistentDataContainer playerData = player.getPersistentDataContainer();
-        if (playerData.has(customIdKey, PersistentDataType.STRING)) {
-            String customValue = playerData.get(customIdKey, PersistentDataType.STRING);
-            if (customValue != null && customValue.equals("milestone_acrobatics")) {
-                if (e.getDamager() instanceof AbstractArrow || e.getDamager() instanceof Trident) {
-                    int level = player.getPersistentDataContainer().get(milestoneLevelKey, PersistentDataType.INTEGER);
-                    double dodgeChance = milestonesConfigManager.getMilestoneValue("acrobatics", level);
-                    if (dodgeChance > 0.0 && Math.random() < dodgeChance) {
-                        e.setCancelled(true);
-                        player.sendMessage("Вы улонились от атаки");
-                        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 1.0f);
-                    }
-                }
-
+        MilestoneData data = playerDataManager.loadPlayerMilestone(player);
+        if (data == null || !data.getCustomId().equals("milestone_acrobatics")) return;
+        if(!(e.getDamager() instanceof AbstractArrow || !(e.getDamager() instanceof Trident))) return;
+        if (e.getDamager() instanceof AbstractArrow || e.getDamager() instanceof Trident) {
+            int level = data.getLevel();
+            double dodgeChance = milestonesConfigManager.getMilestoneValue("acrobatics", level);
+            double roll = Math.random(); // От 0.0 до 1.0
+            player.sendMessage("Шанс уклонения: " + (int)(dodgeChance * 100) + "% | Ролл: " + String.format("%.2f", roll));
+            if (dodgeChance > 0.0 && roll < dodgeChance) {
+                e.setCancelled(true);
+                player.sendMessage("Вы улонились от атаки");
+                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 1.0f);
+            }else {
+                player.sendMessage("Вы не смогли уклониться от атаки");
             }
-
-
         }
     }
+
 }
