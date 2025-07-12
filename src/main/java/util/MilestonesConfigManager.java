@@ -21,6 +21,7 @@ public class MilestonesConfigManager {
         this.milestoneLevels = new HashMap<>();
         this.milestoneFile = new File(plugin.getDataFolder(),"milestones.yml");
         this.milestoneConfig = YamlConfiguration.loadConfiguration(milestoneFile);
+        loadConfig();
     }
     private void loadConfig(){
         if(!milestoneFile.exists()){
@@ -42,6 +43,50 @@ public class MilestonesConfigManager {
             levels.put(3, milestoneSection.getDouble("level_3", 0.0));
             milestoneLevels.put(milestone, levels);
         }
+    }
+    public String getTitle1Level(String section) {
+        ConfigurationSection milestonesSection = milestoneConfig.getConfigurationSection("milestones");
+        if (milestonesSection == null) {
+            plugin.getLogger().warning("No 'milestones' section found in milestone.yml. Using default values.");
+            return "§cРаздел 'milestones' не найден!";
+        }
+        ConfigurationSection targetSection = milestonesSection.getConfigurationSection(section);
+       if (targetSection == null || !targetSection.contains("title_1_level")) {
+           return "§cЗаголовок 1 уровня не задан";
+       }
+        String titleLevel1 = targetSection.getString("title_1_level");
+        return titleLevel1 != null ? titleLevel1 : "§cЗаголовок 1 уровня не задан";
+
+    }
+    public String getTitle2Level(String section) {
+        ConfigurationSection milestonesSection = milestoneConfig.getConfigurationSection("milestones");
+        if (milestonesSection == null) {
+            plugin.getLogger().warning("No 'milestones' section found in milestone.yml. Using default values.");
+            return "§cРаздел 'milestones' не найден!";
+        }
+        ConfigurationSection targetSection = milestonesSection.getConfigurationSection(section);
+        if (targetSection == null) {
+            plugin.getLogger().warning("Секция '" + section + "' не найдена!");
+            return "§cЗаголовок не найден";
+        }
+        String titleLevel1 = targetSection.getString("title_2_level");
+        return titleLevel1 != null ? titleLevel1 : "§cЗаголовок 2 уровня не задан";
+
+    }
+    public String getTitle3Level(String section) {
+        ConfigurationSection milestonesSection = milestoneConfig.getConfigurationSection("milestones");
+        if (milestonesSection == null) {
+            plugin.getLogger().warning("No 'milestones' section found in milestone.yml. Using default values.");
+            return "§cРаздел 'milestones' не найден!";
+        }
+        ConfigurationSection targetSection = milestonesSection.getConfigurationSection(section);
+        if (targetSection == null) {
+            plugin.getLogger().warning("Секция '" + section + "' не найдена!");
+            return "§cЗаголовок не найден";
+        }
+        String titleLevel1 = targetSection.getString("title_3_level");
+        return titleLevel1 != null ? titleLevel1 : "§cЗаголовок 3 уровня не задан";
+
     }
     private void saveDefaultConfig(){
         plugin.saveResource("milestones.yml", false);

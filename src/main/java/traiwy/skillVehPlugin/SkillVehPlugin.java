@@ -1,21 +1,35 @@
 package traiwy.skillVehPlugin;
 
+import command.GiveLevelCommand;
 import command.ResetVehCommand;
 import event.BookOpenListener;
 import inv.main.MainMenuBuilder;
 import inv.main.MainMenuListener;
 import inv.main.MilestoneItems;
+import inv.master.MasterMenuBuilder;
 import org.bukkit.plugin.java.JavaPlugin;
+import util.MilestonesConfigManager;
+import util.PlayerDataManager;
 
 public final class SkillVehPlugin extends JavaPlugin {
+    public  MainMenuListener mainMenuListener;
     @Override
     public void onEnable() {
+
         MilestoneItems milestoneItems = new MilestoneItems(this);
         MainMenuBuilder mainMenuBuilder = new MainMenuBuilder(this, milestoneItems);
-        MainMenuListener mainMenuListener = new MainMenuListener(this, milestoneItems);
-        getServer().getPluginManager().registerEvents(new BookOpenListener(this, mainMenuBuilder, milestoneItems), this);
-        getServer().getPluginManager().registerEvents(new MainMenuListener(this, milestoneItems), this);
-        getCommand("resetVeh").setExecutor(new ResetVehCommand(this, mainMenuListener.getAwaitingVeh()));
+        MilestonesConfigManager milestonesConfigManager = new MilestonesConfigManager(this);
+        PlayerDataManager playerDataManager = new PlayerDataManager(this);
+
+        MasterMenuBuilder masterMenuBuilder = new MasterMenuBuilder(this, milestonesConfigManager, null);
+        mainMenuListener = new MainMenuListener(masterMenuBuilder, this, playerDataManager);
+        masterMenuBuilder.setMainMenuListener(mainMenuListener);
+
+        getServer().getPluginManager().registerEvents(new BookOpenListener(this, masterMenuBuilder, mainMenuBuilder, milestoneItems, playerDataManager), this);
+        getServer().getPluginManager().registerEvents(mainMenuListener, this);
+        getCommand("resetVeh").setExecutor(new ResetVehCommand(this, mainMenuListener.getAwaitingVeh(), playerDataManager));
+        getCommand("vehlevel").setExecutor(new GiveLevelCommand(playerDataManager, masterMenuBuilder, mainMenuListener, this));
+
 
     }
 
