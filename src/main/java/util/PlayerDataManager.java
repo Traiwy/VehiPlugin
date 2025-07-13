@@ -43,7 +43,7 @@ public class PlayerDataManager {
         if(customId == null || level == 0){
             return null;
         }
-         plugin.getLogger().info("Загрузка веха " + player.getName() + ": " +customId + ", level: " +level );
+        //plugin.getLogger().info("Загрузка веха " + player.getName() + ": " +customId + ", level: " +level );
         return new MilestoneData(customId, level);
     }
     public void clearPlayerMilestone(Player player){

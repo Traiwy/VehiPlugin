@@ -43,14 +43,14 @@ public class EntityDamageListener implements Listener {
         if (e.getDamager() instanceof AbstractArrow || e.getDamager() instanceof Trident) {
             int level = data.getLevel();
             double dodgeChance = milestonesConfigManager.getMilestoneValue("acrobatics", level);
-            double roll = Math.random(); // От 0.0 до 1.0
-            player.sendMessage("Шанс уклонения: " + (int)(dodgeChance * 100) + "% | Ролл: " + String.format("%.2f", roll));
+            double roll = Math.random();
+            String percent = ("Шанс уклонения: " + (int)(dodgeChance * 100) + "% | Ролл: " + String.format("%.2f", roll));
             if (dodgeChance > 0.0 && roll < dodgeChance) {
                 e.setCancelled(true);
-                player.sendMessage("Вы улонились от атаки");
+                player.sendActionBar("Вы уклонились от атаки. " + percent);
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 1.0f);
             }else {
-                player.sendMessage("Вы не смогли уклониться от атаки");
+                player.sendActionBar("Вы не смогли уклониться от атаки. " + percent);
             }
         }
     }
