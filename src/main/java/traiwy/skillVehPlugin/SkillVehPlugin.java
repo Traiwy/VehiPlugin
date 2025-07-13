@@ -9,6 +9,7 @@ import inv.main.MilestoneItems;
 import inv.master.MasterMenuBuilder;
 import milestone.EntityDamageListener;
 import milestone.SpeedEffectTask;
+import milestone.VampirismListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import util.MilestonesConfigManager;
@@ -32,6 +33,7 @@ public final class SkillVehPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(mainMenuListener, this);
         getServer().getPluginManager().registerEvents( new EntityDamageListener(this, milestonesConfigManager, playerDataManager), this);
         Bukkit.getScheduler().runTaskTimer(this, new SpeedEffectTask(playerDataManager, milestonesConfigManager), 0L, 10L);
+        getServer().getPluginManager().registerEvents(new VampirismListener(playerDataManager, milestonesConfigManager), this);
         getCommand("resetVeh").setExecutor(new ResetVehCommand(this, mainMenuListener.getAwaitingVeh(), playerDataManager));
         getCommand("vehlevel").setExecutor(new GiveLevelCommand(playerDataManager, masterMenuBuilder, mainMenuListener, this));
 
