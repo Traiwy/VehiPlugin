@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import util.MilestonesConfigManager;
 import util.PlayerDataManager;
+import util.TaskConfigManager;
 
 public final class SkillVehPlugin extends JavaPlugin {
     public  MainMenuListener mainMenuListener;
@@ -24,6 +25,7 @@ public final class SkillVehPlugin extends JavaPlugin {
         MainMenuBuilder mainMenuBuilder = new MainMenuBuilder(this, milestoneItems);
         MilestonesConfigManager milestonesConfigManager = new MilestonesConfigManager(this);
         PlayerDataManager playerDataManager = new PlayerDataManager(this);
+        TaskConfigManager taskConfigManager = new TaskConfigManager(this);
 
         MasterMenuBuilder masterMenuBuilder = new MasterMenuBuilder(this, milestonesConfigManager, null);
         mainMenuListener = new MainMenuListener(masterMenuBuilder, this, playerDataManager);

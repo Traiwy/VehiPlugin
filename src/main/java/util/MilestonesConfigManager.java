@@ -21,12 +21,12 @@ public class MilestonesConfigManager {
         this.milestoneLevels = new HashMap<>();
         this.milestoneFile = new File(plugin.getDataFolder(),"milestones.yml");
         this.milestoneConfig = YamlConfiguration.loadConfiguration(milestoneFile);
+        reloadConfig();
         loadConfig();
     }
     private void loadConfig(){
         if(!milestoneFile.exists()){
-            plugin.saveResource("milestones.yml", false);
-            milestoneConfig = YamlConfiguration.loadConfiguration(milestoneFile);
+            saveDefaultConfig();
         }
 
         ConfigurationSection milestonesSection = milestoneConfig.getConfigurationSection("milestones");
@@ -105,4 +105,5 @@ public class MilestonesConfigManager {
         milestoneConfig = YamlConfiguration.loadConfiguration(milestoneFile);
         loadConfig();
     }
+
 }
