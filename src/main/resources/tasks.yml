@@ -1,61 +1,71 @@
 milestones:
   acrobatics:
     tasks:
-      - id: "arrow_dodge_5"
+      arrow_dodge_5:
+        id: "arrow_dodge_5"
         description: "Уклонитесь от 5 стрел, не получив урона"
         progress: 0
         target: 5
         rarity: "common"
 
-      - id: "sprint_500"
+      sprint_500:
+        id: "sprint_500"
         description: "Пробегите 500 блоков без остановки"
         progress: 0
         target: 500
         rarity: "common"
 
-      - id: "jump_100"
+      jump_100:
+        id: "jump_100"
         description: "Совершите 100 прыжков подряд"
         progress: 0
         target: 100
         rarity: "uncommon"
 
-      - id: "projectile_dodge_10"
+      projectile_dodge_10:
+        id: "projectile_dodge_10"
         description: "Уклонитесь от 10 снарядов (стрел или трезубцев), не получив урона"
         progress: 0
         target: 10
         rarity: "uncommon"
 
-      - id: "climb_50"
+      climb_50:
+        id: "climb_50"
         description: "Поднимитесь на общую высоту 50 блоков (лестницы, лианы, лазы)"
         progress: 0
         target: 50
         rarity: "uncommon"
 
-      - id: "mob_dash_10"
+      mob_dash_10:
+        id: "mob_dash_10"
         description: "Пробегите мимо 10 враждебных мобов, не получив урона"
         progress: 0
         target: 10
         rarity: "rare"
 
-      - id: "fall_30_safe"
+      fall_30_safe:
+        id: "fall_30_safe"
         description: "Прыгните с высоты 30 блоков и приземлитесь без урона"
         progress: 0
         target: 1
         rarity: "rare"
 
-      - id: "blaze_dodge_50"
+      blaze_dodge_50:
+        id: "blaze_dodge_50"
         description: "Уклонитесь от 50 огненных шаров блейзов, не получив урона"
         progress: 0
         target: 50
         rarity: "epic"
 
-      - id: "ghast_dodge_30"
+      ghast_dodge_30:
+        id: "ghast_dodge_30"
         description: "Уклонитесь от 30 фаерболов гаста, не блокируя их и не получив урона"
         progress: 0
         target: 30
         rarity: "epic"
 
-      - id: "hunted_run_survival"
+      hunted_run_survival:
+        id: "hunted_run_survival"
         description: "Ночью в обычном мире выживите 3 минуты в погоне от 5 разных типов враждебных мобов, не получив ни единого удара и не используя броню"
         progress: 0
         target: 1

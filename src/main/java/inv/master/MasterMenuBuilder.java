@@ -92,6 +92,10 @@ public class MasterMenuBuilder {
         String rarity = taskConfigManager.getRarityTask("milestones", taskName);
 
         int[] stainedGlass = {27,28, 29,30,31,32,33,34,35,45,46,47,48,49,50,51,52,53};
+        ItemStack pane = getGlassByRarity(rarity);
+        for(int slot : stainedGlass){
+            inv.setItem(slot, pane);
+        }
 
 
         item.setItemMeta(meta);
@@ -109,24 +113,30 @@ public class MasterMenuBuilder {
         switch (rarity.toLowerCase()){
             case "common":
                 material = Material.LIME_STAINED_GLASS_PANE;
+                plugin.getLogger().info("обычное");
                 break;
             case "uncommon":
                 material = Material.YELLOW_STAINED_GLASS_PANE;
+                plugin.getLogger().info("необычное");
                 break;
             case "rare":
                 material = Material.BLUE_STAINED_GLASS_PANE;
+                plugin.getLogger().info("редкое");
                 break;
             case "epic":
                 material = Material.PURPLE_STAINED_GLASS_PANE;
+                plugin.getLogger().info("эпическое");
                 break;
             case "legendary":
                 material = Material.ORANGE_STAINED_GLASS_PANE;
+                plugin.getLogger().info("легендарное");
                 break;
             default:
                 material = Material.GRAY_STAINED_GLASS_PANE;
+                plugin.getLogger().info("нет задания");
                 break;
         }
         ItemStack pane = new ItemStack(material);
-
+        return  pane;
     }
 }

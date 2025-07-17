@@ -27,7 +27,7 @@ public final class SkillVehPlugin extends JavaPlugin {
         PlayerDataManager playerDataManager = new PlayerDataManager(this);
         TaskConfigManager taskConfigManager = new TaskConfigManager(this);
 
-        MasterMenuBuilder masterMenuBuilder = new MasterMenuBuilder(this, milestonesConfigManager, null);
+        MasterMenuBuilder masterMenuBuilder = new MasterMenuBuilder(this, milestonesConfigManager, mainMenuListener, taskConfigManager, playerDataManager);
         mainMenuListener = new MainMenuListener(masterMenuBuilder, this, playerDataManager);
         masterMenuBuilder.setMainMenuListener(mainMenuListener);
 

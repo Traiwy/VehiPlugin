@@ -61,19 +61,12 @@ public class TaskConfigManager {
         return targetDescription != null ? targetDescription : "Описание заданяи не найдено";
     }
     public String getRarityTask(String mainSection, String section){
-        ConfigurationSection taskSection = taskConfig.getConfigurationSection(mainSection);
-        if (taskSection == null) {
-            plugin.getLogger().warning("Не найден 'taskSection'");
-            return "Раздел задания не найден";
+        String path = mainSection + "." + section;
+        if(!taskConfig.contains(path+".rarity")){
+            plugin.getLogger().warning("Не найден путь: " +  path+".rarity");
+            return "Редскость не найдена";
         }
-        ConfigurationSection targetSection = taskSection.getConfigurationSection(section);
-        if (targetSection == null) {
-            plugin.getLogger().warning("Не найдена секция " + section);
-            return "Раздел " + section + " не найден";
-        }
-
-        String targetRarity = targetSection.getString("rarity");
-        return targetRarity != null ? targetRarity : "Редкость не найдена";
+        return  taskConfig.getString(path+".rarity");
     }
 
 }
